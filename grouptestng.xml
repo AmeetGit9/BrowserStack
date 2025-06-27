@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Group Tests" parallel="none" >
+
+    <groups>
+        <run>
+            <include name="sanity"/>
+        </run>
+    </groups>
+    <!-- Chrome Test -->
+    <test name="ChromeTest" verbose="2" preserve-order="true">
+        <parameter name="os" value="windows"/>
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="testCases.TC001_AccountRegistration"/>
+        </classes>
+    </test>
+</suite>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [All Test Suite]" guice-stage="DEVELOPMENT">
+  <parameter name="os" value="windows"/>
+  <parameter name="browser" value="edge"/>
+  <test thread-count="5" name="C:/Users/Ameet S/IdeaProjects/WebAutomation/src/test/java/testCases(failed)">
+    <classes>
+      <class name="testCases.TC001_AccountRegistration">
+        <methods>
+          <include name="setup"/>
+          <include name="verify_AccRegistraion"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- testCases.TC001_AccountRegistration -->
+    </classes>
+  </test> <!-- C:/Users/Ameet S/IdeaProjects/WebAutomation/src/test/java/testCases(failed) -->
+</suite> <!-- Failed suite [All Test Suite] -->
