@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="ElPais Suite" parallel="tests" thread-count="5">
+    <test name="ElPais Test">
+        <classes>
+            <class name="BrowserStack.BrowserStackParallelTest"/>
+        </classes>
+    </test>
+</suite>

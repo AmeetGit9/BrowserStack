@@ -1,0 +1,56 @@
+# =============================
+# Set BrowserStack Credentials
+# =============================
+userName: ameet_sy8UWz
+accessKey: KDV5AQ3YEeYw83AVeXtD
+
+# ======================
+# BrowserStack Reporting
+# ======================
+projectName: BrowserStack Sample
+buildName: browserstack build
+buildIdentifier: '#${BUILD_NUMBER}'
+
+# =======================================
+# Platforms (Browsers / Devices to test)
+# =======================================
+platforms:
+  - os: Windows
+    osVersion: 11
+    browserName: Chrome
+    browserVersion: 138
+  - os: Windows
+    osVersion: 11
+    browserName: Edge
+    browserVersion: 138
+  - os: OS X
+    osVersion: Ventura
+    browserName: Safari
+    browserVersion: 16.5
+  - os: Windows
+    osVersion: 11
+    browserName: Opera
+    browserVersion: 12.0
+  - deviceName: Samsung Galaxy A52
+    osVersion: 12.0
+    browserName: chrome
+    realMobile: true
+
+# =======================
+# Parallels per Platform
+# =======================
+parallelsPerPlatform: 1
+
+source: java:intellij:v1.1.6
+
+# ==========================================
+# BrowserStack Local (if testing localhost)
+# ==========================================
+browserstackLocal: true
+
+# ===================
+# Debugging features
+# ===================
+debug: false
+networkLogs: false
+consoleLogs: errors
