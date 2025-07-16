@@ -36,7 +36,7 @@ public class BrowserStackParallelTest {
             drv = new RemoteWebDriver(new URL(HUB_URL), caps);
             driver.set(drv);
 
-            System.out.println("🔧 Running on: " + caps.toString());
+            System.out.println("Running on: " + caps.toString());
             ElPaisSimple.runTest(drv);
 
             markTestStatus("passed", "Test completed successfully", drv);
