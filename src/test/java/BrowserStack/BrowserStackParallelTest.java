@@ -16,7 +16,7 @@ public class BrowserStackParallelTest {
     static String ACCESS_KEY = "KDV5AQ3YEeYw83AVeXtD";
     static String HUB_URL = "https://" + USERNAME + ":" + ACCESS_KEY + "@hub-cloud.browserstack.com/wd/hub";
 
-    ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    ThreadLocal<WebDriver> driver = new ThreadLocal<>();     // ThreadLocal ensures each test thread gets its own WebDriver instance. 
 
     @DataProvider(name = "parallelProvider", parallel = true)
     public Object[][] parallelProvider(Method method) {
@@ -30,18 +30,18 @@ public class BrowserStackParallelTest {
     }
 
     @Test(dataProvider = "parallelProvider")
-    public void testParallel(MutableCapabilities caps) {
+    public void testParallel(MutableCapabilities caps) {    //used to set and pass browser configuration (like name, version) for WebDriver.
         WebDriver drv = null;
         try {
             drv = new RemoteWebDriver(new URL(HUB_URL), caps);
             driver.set(drv);
 
             System.out.println("Running on: " + caps.toString());
-            ElPaisSimple.runTest(drv);
+            ElPaisSimple.runTest(drv); // Run your actual test method
 
             markTestStatus("passed", "Test completed successfully", drv);
         } catch (Exception e) {
-            markTestStatus("failed", e.getMessage(), drv);
+            markTestStatus("failed", e.getMessage1(), drv);
         } finally {
             if (drv != null) drv.quit();
         }
@@ -50,9 +50,9 @@ public class BrowserStackParallelTest {
     private void markTestStatus(String status, String reason, WebDriver drv) {
         try {
             ((RemoteWebDriver) drv).executeScript(
-                    "browserstack_executor: {\"action\":\"setSessionStatus\",\"arguments\":{" +
+                    "browserstack_executor: {\"action\":\"setSessionStatus\",\"arguments\":{" +   
                             "\"status\":\"" + status + "\",\"reason\":\"" + reason + "\"}}"
-            );
+            );// This is the special JavaScript command sent to BrowserStack via executeScript It tells BrowserStack to update the test status with given status and reason.
         } catch (Exception ignored) {}
     }
 
@@ -88,7 +88,7 @@ public class BrowserStackParallelTest {
         opts.put("debug", "true");
         opts.put("consoleLogs", "info");
 
-        caps.setCapability("bstack:options", opts);
+        caps.setCapability("bstack:options", opts);  // Add BrowserStack options to capabilities
         return caps;
     }
 }
