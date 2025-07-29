@@ -40,7 +40,7 @@ public class BrowserStackLocalRun {
             }
             System.out.println("Website is in Spanish");
 
-            // Click on Opinión link
+            // Click on Opinion link
             driver.findElement(By.linkText("Opinión")).click();
 
             // Get articles and filter valid ones
@@ -65,7 +65,8 @@ public class BrowserStackLocalRun {
                     WebElement header = article.findElement(By.cssSelector("h2, h3"));
                     String title = header.getText().trim();
                     if (title.isEmpty()) continue;
-
+                    
+                    // Get all paragraph content inside the article
                     String content = "";
                     List<WebElement> paragraphs = article.findElements(By.cssSelector("p"));
                     for (WebElement p : paragraphs) content += p.getText() + "\n";
@@ -111,7 +112,7 @@ public class BrowserStackLocalRun {
                     }
                 }
             }
-
+          // Filter and print only repeated words
             Map<String, Integer> repeated = new LinkedHashMap<>();
             freq.entrySet().stream()
                     .filter(e -> e.getValue() > 2)
@@ -131,29 +132,28 @@ public class BrowserStackLocalRun {
         }
     }
 
-    public static String translateText(String text) throws IOException {
-        text = text.replace("\"", "\\\"").replace("\n", " ");
-        String encodedText = URLEncoder.encode(text, "UTF-8");
+    public static String translateText(String text) throws IOException { 
+        text = text.replace("\"", "\\\"").replace("\n", " ");  //This ensures the text doesn't break the URL or JSON format when sent in the API request. Newlines and quotes can cause parsing issues.
+        String encodedText = URLEncoder.encode(text, "UTF-8");   //Encodes cleaned text for safe inclusion in URL
+        String apiUrl = "https://api.mymemory.translated.net/get?q=" + encodedText + "&langpair=es|en"; ////Builds URL to request translation from Spanish to English.
 
-        String apiUrl = "https://api.mymemory.translated.net/get?q=" + encodedText + "&langpair=es|en";
+        HttpURLConnection conn = (HttpURLConnection) new URL(apiUrl).openConnection(); //Opens HTTP connection to translation API.
+        conn.setRequestMethod("GET"); //Sets HTTP method to GET to retrieve data
 
-        HttpURLConnection conn = (HttpURLConnection) new URL(apiUrl).openConnection();
-        conn.setRequestMethod("GET");
-
-        int responseCode = conn.getResponseCode();
+        int responseCode = conn.getResponseCode(); //Gets the response code to check if the request was successful.
         if (responseCode != 200) {
             throw new IOException("Translation API failed with code: " + responseCode);
         }
 
-        StringBuilder response = new StringBuilder();
-        try (Scanner scanner = new Scanner(conn.getInputStream())) {
+        StringBuilder response = new StringBuilder(); //Prepares to store the API’s JSON response.
+        try (Scanner scanner = new Scanner(conn.getInputStream())) { //Reads and stores full response from API
             while (scanner.hasNext()) {
                 response.append(scanner.nextLine());
             }
         }
 
-        JSONObject json = new JSONObject(response.toString());
-        return json.getJSONObject("responseData").getString("translatedText");
+        JSONObject json = new JSONObject(response.toString()); //Parses the response string into a JSON object.
+        return json.getJSONObject("responseData").getString("translatedText");  //Extracts and returns the translated text from the JSON response
     }
 
     public static void saveImage(String url, String filename) {
